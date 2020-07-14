@@ -1,5 +1,6 @@
 #include <cstdio>
-
+#include <bits/stdc++.h>
+using namespace std;
 // Splay tree implementation
 
 // Vertex of a splay tree
@@ -157,14 +158,26 @@ void insert(int x) {
   root = merge(merge(left, new_vertex), right);
 }
 
-void erase(int x) {                   
-  // Implement erase yourself
-
+void erase(int x) {                  
+  Vertex * v = find(root, x);             
+  splay(root, v);              
+  if(v==NULL || v->key!=x) return;          
+  Vertex* left = NULL;           
+  Vertex* right = NULL;       
+  Vertex* new_vertex = NULL;        
+  split(root, x, left, right);      
+  right=right->right;
+  if(right!=NULL)                  
+  right->parent=NULL;   
+  root=merge(left,right);
 }
 
 bool find(int x) {  
-  // Implement find yourself
-
+  Vertex* res=find(root, x);
+  if(res==NULL) return false;
+  if(res->key==x){
+    return true;
+  }
   return false;
 }
 
@@ -174,13 +187,13 @@ long long sum(int from, int to) {
   Vertex* right = NULL;
   split(root, from, left, middle);
   split(middle, to + 1, middle, right);
-  long long ans = 0;
-  // Complete the implementation of sum
-  
+  long long ans = middle==NULL?0:middle->sum;
+  root=merge(merge(left,middle),right);
   return ans;  
 }
 
 const int MODULO = 1000000001;
+
 
 int main(){
   int n;

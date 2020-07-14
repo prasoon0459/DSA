@@ -27,49 +27,44 @@ public:
     }
   }
 
-
-  vector <int> in_order() {
-    vector<int> result;
-    // Finish the implementation
-    // You may need to add a new recursive method to do that
-
-    return result;
+  void in_order(int index) {
+    if(index == -1){
+      return;
+    }
+    in_order(left[index]);
+    cout<<key[index]<<' ';
+    in_order(right[index]);
   }
 
-  vector <int> pre_order() {
-    vector<int> result;    
-    // Finish the implementation
-    // You may need to add a new recursive method to do that
-    
-    return result;
+  void pre_order(int index) {
+    if(index == -1){
+      return;
+    }
+    cout<<key[index]<<' ';
+    pre_order(left[index]);
+    pre_order(right[index]);
   }
 
-  vector <int> post_order() {
-    vector<int> result;
-    // Finish the implementation
-    // You may need to add a new recursive method to do that
-    
-    return result;
+  void post_order(int index) {
+    if(index == -1){
+      return;
+    }
+    post_order(left[index]);
+    post_order(right[index]);
+    cout<<key[index]<<' ';
   }
 };
-
-void print(vector <int> a) {
-  for (size_t i = 0; i < a.size(); i++) {
-    if (i > 0) {
-      cout << ' ';
-    }
-    cout << a[i];
-  }
-  cout << '\n';
-}
 
 int main_with_large_stack_space() {
   ios_base::sync_with_stdio(0);
   TreeOrders t;
   t.read();
-  print(t.in_order());
-  print(t.pre_order());
-  print(t.post_order());
+  t.in_order(0);
+  cout<<'\n';
+  t.pre_order(0);
+  cout<<'\n';
+  t.post_order(0);
+  cout<<'\n';
   return 0;
 }
 
