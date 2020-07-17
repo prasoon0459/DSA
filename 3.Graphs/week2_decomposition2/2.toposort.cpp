@@ -1,20 +1,28 @@
-#include <iostream>
-#include <algorithm>
-#include <vector>
+#include <bits/stdc++.h>
+using namespace std;
 
-using std::vector;
-using std::pair;
-
-void dfs(vector<vector<int> > &adj, vector<int> &used, vector<int> &order, int x) {
-  //write your code here
+int explore(vector<vector<int> > &adj,vector<bool> &visited, int x, stack<int> &order) {
+  visited[x]=true;
+  for(int w: adj[x]){
+    if(!visited[w]){
+      explore(adj, visited, w, order);
+    }
+  }
+  order.push(x);
+  return 0;
+}
+stack<int> dfs(vector<vector<int> > &adj) {
+  int n=adj.size();
+  vector<bool> visited(n, false);
+  stack<int> order;
+  for(int i=0;i<n;i++){
+    if(!visited[i]){
+      explore(adj, visited, i, order);
+    }
+  }
+  return order;
 }     
 
-vector<int> toposort(vector<vector<int> > adj) {
-  vector<int> used(adj.size(), 0);
-  vector<int> order;
-  //write your code here
-  return order;
-}
 
 int main() {
   size_t n, m;
@@ -25,8 +33,10 @@ int main() {
     std::cin >> x >> y;
     adj[x - 1].push_back(y - 1);
   }
-  vector<int> order = toposort(adj);
-  for (size_t i = 0; i < order.size(); i++) {
-    std::cout << order[i] + 1 << " ";
+  stack<int> order = dfs(adj);
+  while(!order.empty()){
+    cout<<order.top()+1<<" ";
+    order.pop();
   }
+
 }
