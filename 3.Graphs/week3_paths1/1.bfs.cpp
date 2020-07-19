@@ -1,12 +1,26 @@
-#include <iostream>
-#include <vector>
-#include <queue>
-
-using std::vector;
-using std::queue;
+#include<bits/stdc++.h>
+using namespace std;
 
 int distance(vector<vector<int> > &adj, int s, int t) {
-  //write your code here
+  int n=adj.size();
+  vector<int> dist(n,n+1);
+  queue <int> q;
+
+  dist[s]=0;
+  q.push(s);
+
+  while(!q.empty()){
+    int u=q.front();
+    q.pop();
+    for(int v:adj[u]){
+      if(dist[v]==n+1){
+        q.push(v);
+        dist[v]=dist[u]+1;
+        if(v==t)return dist[v];
+      }
+    }
+  }
+
   return -1;
 }
 

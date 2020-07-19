@@ -1,13 +1,46 @@
-#include <iostream>
-#include <vector>
-#include <queue>
+#include<bits/stdc++.h>
+using namespace std;
 
-using std::vector;
-using std::queue;
+int distance(vector<vector<int> > &adj, int s,  vector<int> &dist, vector<int> &visited) {
+  int n=adj.size();
+  queue <int> q;
+  dist[s]=0;
+  q.push(s);
+  visited[s]=1; // starting vertex black
+  while(!q.empty()){
+    int u=q.front();
+    int color=visited[u];
+    q.pop();
+    for(int v:adj[u]){
+      if(color==visited[v]) return 0;// if same color as parent
+      visited[v]=color==1?2:1; // giving opposite color to parent
+      if(dist[v]==n+1){
+        q.push(v);
+        dist[v]=dist[u]+1;
+      }
+    }
+  }
+  return 1;
+}
 
 int bipartite(vector<vector<int> > &adj) {
-  //write your code here
-  return -1;
+  int n=adj.size();
+  vector<int> dist(n,n+1);  //write your code here
+  
+  /** 
+   * 0 -> not visited
+   * 1 -> black
+   * 2 -> red
+   **/
+  vector<int> visited(n,0);
+
+  for(int i=0;i<n;i++){
+    if(visited[i]==0){
+      int res=distance(adj,i,dist,visited);
+      if(res==0) return 0; 
+    }
+  }
+  return 1;
 }
 
 int main() {
